@@ -9,7 +9,7 @@ class YourRedisServer
     server = TCPServer.new(@port)
     loop do
       client = server.accept
-      while (_line = client.gets.chomp)
+      while (_line = client.gets)
         puts _line
         client.puts("+PONG\r\n")
       end
