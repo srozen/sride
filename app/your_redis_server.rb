@@ -16,7 +16,7 @@ class YourRedisServer
             @logger.info("Received #{line.inspect}")
             _line = line.chomp
             command = []
-            params_number = _line.match(/^\*(\d)/)[1].to_i
+            params_number = _line.match(/\d+/)[0].to_i
             params_number.times do
               _bytes = client.gets.chomp
               _command = client.gets.chomp
