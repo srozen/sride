@@ -8,3 +8,4 @@ source "https://rubygems.org"
 # Helps with declaratively parsing binary data.
 gem "bindata", "~> 2.4"
 gem "minitest", "~> 5.10"
+gem 'logger', '~> 1.7'
