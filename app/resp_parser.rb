@@ -1,13 +1,19 @@
 module RESPParser
+  PONG = "+PONG\r\n"
   def self.parse(resp_command)
     command = resp_command[0].downcase
     case command
     when 'ping'
-      "+PONG\r\n"
+      PONG
     when 'echo'
-      "$#{resp_command[1].bytesize}\r\n#{resp_command[1]}\r\n"
+      argument = resp_command[1]
+      RESPParser.to_bulk_string(argument)
     else
-      "+PONG\r\n"
+      PONG
     end
+  end
+
+  def self.to_bulk_string(answer)
+    format("$%d\r\n%s\r\n", answer.bytesize, answer)
   end
 end
