@@ -4,9 +4,9 @@ require_relative '../app/your_redis_server'
 
 class YourRedisServerTest < Minitest::Test
   def setup
-    port = rand(49152..65535)
-    @server_thread = Thread.new { YourRedisServer.new(port).start }
-    @client = TCPSocket.new('localhost', port)
+    @port = rand(49152..65535)
+    @server_thread = Thread.new { YourRedisServer.new(@port).start }
+    @client = TCPSocket.new('localhost', @port)
   end
 
   def teardown
@@ -31,5 +31,15 @@ class YourRedisServerTest < Minitest::Test
     @client.puts("*2\r\n$4\r\nPING\r\n$5\r\nhello\r\n")
     response = @client.gets
     assert_equal "+PONG\r\n", response
+  end
+
+  def test_handles_multiple_clients
+    clients = 3.times.map { TCPSocket.new('localhost', @port) }
+    clients.each do |client|
+      client.puts("*1\r\n$4\r\nPING\r\n")
+      response = client.gets
+      assert_equal "+PONG\r\n", response
+    end
+    clients.each { |client| client.close }
   end
 end

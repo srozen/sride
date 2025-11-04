@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     bindata (2.4.15)
+    minitest (5.26.0)
 
 PLATFORMS
   aarch64-linux-musl
@@ -12,6 +13,7 @@ PLATFORMS
 
 DEPENDENCIES
   bindata (~> 2.4)
+  minitest (~> 5.10)
 
 BUNDLED WITH
    2.4.18
