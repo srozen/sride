@@ -44,11 +44,13 @@ class YourRedisServer
 
   def process_command(command)
     case command
+    in :ping
+      Formatter.to_simple_string('PONG')
     in { echo: argument }
       Formatter.to_bulk_string(argument)
     in { set: key, value: value }
       set(key, value)
-      Formatter.to_bulk_string('OK')
+      Formatter.to_simple_string('OK')
     in { get: key }
       answer = get(key)
       Formatter.to_bulk_string(answer)

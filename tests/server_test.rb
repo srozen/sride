@@ -35,8 +35,7 @@ class YourRedisServerTest < Minitest::Test
 
   def test_handles_get_set_commands
     @client.puts("*3\r\n$3\r\nSET\r\n$5\r\nhello\r\n$5\r\nworld\r\n")
-    assert_equal "$2\r\n", @client.gets
-    assert_equal "OK\r\n", @client.gets
+    assert_equal "+OK\r\n", @client.gets
 
     @client.puts("*2\r\n$3\r\nGET\r\n$5\r\nhello\r\n")
     assert_equal "$5\r\n", @client.gets

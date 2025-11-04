@@ -5,8 +5,6 @@ module RESPParser
   def self.parse(resp_command)
     command = resp_command[0].downcase
     case command
-    when 'ping'
-      { echo: 'ping' }
     when 'echo'
       argument = resp_command[1]
       { echo: argument }
@@ -17,7 +15,7 @@ module RESPParser
       key = resp_command[1]
       { get: key }
     else
-      { echo: 'ping' }
+      :ping
     end
   end
 end

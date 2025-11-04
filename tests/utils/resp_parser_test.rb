@@ -4,7 +4,7 @@ require_relative '../../app/utils/resp_parser'
 class RESPParserTest < Minitest::Test
   def test_ping
     response = RESPParser.parse(%w[PING])
-    expected = { echo: 'ping' }
+    expected = :ping
     assert_equal expected, response
   end
 
