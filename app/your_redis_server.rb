@@ -5,6 +5,7 @@ class YourRedisServer
   def initialize(port)
     @logger = Logger.new(STDOUT)
     @port = port
+    @key_value_store = {}
   end
 
   def start
@@ -32,11 +33,33 @@ class YourRedisServer
           command.push(_command)
         end
         @logger.info("Answering to #{command.inspect}")
-        answer = RESPParser.parse(command)
+        parsed_command = RESPParser.parse(command)
+        answer = process_command(parsed_command)
         client.puts(answer)
       end
     rescue Exception => e
       @logger.error(e.message)
     end
+  end
+
+  def process_command(command)
+    case command
+    in { echo: argument }
+      Formatter.to_bulk_string(argument)
+    in { set: key, value: value }
+      set(key, value)
+      Formatter.to_bulk_string('OK')
+    in { get: key }
+      answer = get(key)
+      Formatter.to_bulk_string(answer)
+    end
+  end
+
+  def set(key, value)
+    @key_value_store[key] = value
+  end
+
+  def get(key)
+    @key_value_store[key]
   end
 end

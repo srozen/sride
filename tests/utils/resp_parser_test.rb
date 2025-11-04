@@ -4,11 +4,13 @@ require_relative '../../app/utils/resp_parser'
 class RESPParserTest < Minitest::Test
   def test_ping
     response = RESPParser.parse(%w[PING])
-    assert_equal "+PONG\r\n", response
+    expected = { echo: 'ping' }
+    assert_equal expected, response
   end
 
   def test_echo
     response = RESPParser.parse(%w[echo foobar])
-    assert_equal "$6\r\nfoobar\r\n", response
+    expected = { echo: 'foobar' }
+    assert_equal expected, response
   end
 end

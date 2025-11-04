@@ -33,6 +33,16 @@ class YourRedisServerTest < Minitest::Test
     assert_equal "+PONG\r\n", response
   end
 
+  def test_handles_get_set_commands
+    @client.puts("*3\r\n$3\r\nSET\r\n$5\r\nhello\r\n$5\r\nworld\r\n")
+    assert_equal "$2\r\n", @client.gets
+    assert_equal "OK\r\n", @client.gets
+
+    @client.puts("*2\r\n$3\r\nGET\r\n$5\r\nhello\r\n")
+    assert_equal "$5\r\n", @client.gets
+    assert_equal "world\r\n", @client.gets
+  end
+
   def test_handles_multiple_clients
     clients = 3.times.map { TCPSocket.new('localhost', @port) }
     clients.each do |client|
