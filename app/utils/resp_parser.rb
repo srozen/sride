@@ -16,7 +16,8 @@ module RESPParser
       else
         expiry_type = resp_command.shift.downcase
         expiry = resp_command.shift
-        puts("Current date: #{Time.now}")
+        puts("Current before saving: #{Time.now}")
+        puts("Expiry: #{expiry}")
 
         case expiry_type
         when 'ex'
