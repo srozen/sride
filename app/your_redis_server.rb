@@ -49,11 +49,14 @@ class YourRedisServer
     in { echo: argument }
       Formatter.to_bulk_string(argument)
     in { set: key, value: value }
-      set(key, value)
+      expiry = command[:expiry]
+      set(key, { value: value, expiry: expiry })
       Formatter.to_simple_string('OK')
     in { get: key }
       answer = get(key)
-      Formatter.to_bulk_string(answer)
+      expiry = answer[:expiry]
+      value = expiry && expiry < Time.now ? nil : answer[:value]
+      Formatter.to_bulk_string(value)
     end
   end
 
