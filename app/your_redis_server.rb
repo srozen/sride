@@ -56,9 +56,8 @@ class YourRedisServer
       answer = get(key)
       expiry = answer[:expiry]
       @logger.info("Current date when answering: #{Time.now}")
-      @logger.info("Current time: #{Process.clock_gettime(Process::CLOCK_MONOTONIC)}")
       @logger.info("Expiry: #{expiry}")
-      value = expiry && expiry < Process.clock_gettime(Process::CLOCK_MONOTONIC) ? nil : answer[:value]
+      value = expiry && expiry < Time.now ? nil : answer[:value]
       Formatter.to_bulk_string(value)
     end
   end
