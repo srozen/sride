@@ -19,10 +19,10 @@ module RESPParser
         case expiry_type
         when 'ex'
           expiry = Time.now + expiry.to_i
-          { set: key, value: value, expiry: expiry }
+          { set: key, value: value, expiry: expiry.to_r }
         when 'px'
           expiry = Time.now + expiry.to_i / 1000
-          { set: key, value: value, expiry: expiry }
+          { set: key, value: value, expiry: expiry.to_r }
         end
       end
     when 'get'

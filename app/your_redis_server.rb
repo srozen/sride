@@ -55,8 +55,8 @@ class YourRedisServer
     in { get: key }
       answer = get(key)
       expiry = answer[:expiry]
-      puts expiry
-      value = expiry && expiry < Time.now ? nil : answer[:value]
+      @logger.info("Expiry: #{expiry}")
+      value = expiry && expiry < Time.now.to_r ? nil : answer[:value]
       Formatter.to_bulk_string(value)
     end
   end
