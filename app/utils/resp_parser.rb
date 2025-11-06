@@ -18,11 +18,11 @@ module RESPParser
         expiry = resp_command.shift
         case expiry_type
         when 'ex'
-          expiry = Time.now + expiry.to_i
-          { set: key, value: value, expiry: expiry.to_r }
+          expiry = Process.clock_gettime(Process::CLOCK_MONOTONIC) + expiry.to_i
+          { set: key, value: value, expiry: expiry }
         when 'px'
-          expiry = Time.now + expiry.to_i / 1000
-          { set: key, value: value, expiry: expiry.to_r }
+          expiry = Process.clock_gettime(Process::CLOCK_MONOTONIC) + expiry.to_i / 1000
+          { set: key, value: value, expiry: expiry }
         end
       end
     when 'get'
