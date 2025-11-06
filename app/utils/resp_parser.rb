@@ -16,6 +16,8 @@ module RESPParser
       else
         expiry_type = resp_command.shift.downcase
         expiry = resp_command.shift
+        puts("Current date: #{Time.now}")
+
         case expiry_type
         when 'ex'
           expiry = Process.clock_gettime(Process::CLOCK_MONOTONIC) + expiry.to_i
